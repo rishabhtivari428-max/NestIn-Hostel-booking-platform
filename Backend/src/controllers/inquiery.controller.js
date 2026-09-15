@@ -71,8 +71,8 @@ export async function getInquiery(req, res) {
 
         const inquiries = await InquieryModel.find(query)
             .populate("hostel", "name location city address")
-            .populate("student", "name email")
-            .populate("owner", "name email")
+            .populate("student", "Username name email phone")
+            .populate("owner", "Username name email phone")
             .sort({ createdAt: -1 });
 
         return res.status(200).json({
@@ -119,8 +119,8 @@ export async function updateInquieryStatus(req, res) {
 
         const updatedInquiry = await InquieryModel.findById(inquiryId)
             .populate("hostel", "name location city address")
-            .populate("student", "name email")
-            .populate("owner", "name email");
+            .populate("student", "Username name email phone")
+            .populate("owner", "Username name email phone");
 
         return res.status(200).json({
             message: "Inquiry status updated successfully",

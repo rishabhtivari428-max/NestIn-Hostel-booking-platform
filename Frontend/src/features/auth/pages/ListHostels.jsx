@@ -119,10 +119,10 @@ const ListHostels = () => {
                         <div key={hId} className="w-80 p-6 rounded-3xl bg-[#1d5238] bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.06)_0px,rgba(255,255,255,0.06)_1px,transparent_1px,transparent_8px)] text-amber-200 shadow-xl flex flex-col justify-between">
                             <div>
                                 <h1 className='font-bold text-lg text-yellow-400'>
-                                    Owner: {hostel.owner?.Username || hostel.owner?.name || hostel.owner || 'Unknown'}
+                                    Owner: {typeof hostel.owner === 'object' && hostel.owner !== null ? (hostel.owner.Username || hostel.owner.username || hostel.owner.name || 'Unknown') : (hostel.owner || 'Unknown')}
                                 </h1>
                                 <p className="text-sm text-white">
-                                    Phone: {hostel.owner?.phone || 'Not provided'}
+                                    Phone: {hostel.owner?.phone || hostel.owner?.phoneNumber || 'Not provided'}
                                 </p>
                                 <h1 className="font-bold text-lg">{hostel.name}</h1>
                                 <p className="text-white">{hostel.address?.city || hostel.city}</p>

@@ -59,7 +59,7 @@ export async function getHostelById(req, res) {
     try {
         const { id } = req.params;
 
-        const hostel = await HostelModel.findById(id).populate('owner', 'Username email phone');
+        const hostel = await HostelModel.findById(id).populate('owner', 'Username name email phone');
 
         if (!hostel) {
             return res.status(404).json({ message: "Hostel not found" });
@@ -102,7 +102,7 @@ export async function getAllHostels(req, res) {
             ];
         }
 
-        const hostels = await HostelModel.find(filter).populate('owner', 'Username email phone');
+        const hostels = await HostelModel.find(filter).populate('owner', 'Username name email phone');
         const hostelResults = hostels.map((hostel) => ({
             ...hostel.toObject(),
             id: hostel._id.toString()
@@ -125,7 +125,7 @@ export async function getHostelbyOwner(req, res) {
     try {
         const ownerId = req.params.id || req.user._id;
 
-        const hostels = await HostelModel.find({ owner: ownerId }).populate('owner', 'Username email phone');
+        const hostels = await HostelModel.find({ owner: ownerId }).populate('owner', 'Username name email phone');
 
         return res.status(200).json({
             message: "Hostels fetched successfully",

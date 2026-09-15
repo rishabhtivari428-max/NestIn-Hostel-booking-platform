@@ -62,7 +62,7 @@ export async function getSingleBooking(req, res) {
 
         const booking = await BookingModel.findOne({ _id: bookingId, user: userId })
             .populate('hostel')
-            .populate('owner', 'name email phone'); 
+            .populate('owner', 'Username name email phone'); 
 
         if (!booking) {
             return res.status(404).json({

@@ -27,7 +27,14 @@ const UserSchema = mongoose.Schema({
         enum: ["Student", "Owner", "Admin"],
         required: true
     }
-}, {timestamps: true})
+}, {timestamps: true});
+
+UserSchema.virtual('name').get(function() {
+    return this.Username;
+});
+
+UserSchema.set('toObject', { virtuals: true });
+UserSchema.set('toJSON', { virtuals: true });
 
 const UserModel = mongoose.model("Users", UserSchema)
 

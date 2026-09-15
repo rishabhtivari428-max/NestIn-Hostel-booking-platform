@@ -124,11 +124,11 @@ const ViewInquiries = ({ hostelId }) => {
                                         </p>
 
                                         <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-emerald-100/70 pt-1">
-                                            {inquiry.student?.name && (
-                                                <span>👤 Student: <strong className="text-[#dbecb9]">{inquiry.student.name}</strong> ({inquiry.student.email})</span>
+                                            {inquiry.student && (
+                                                <span>👤 Student: <strong className="text-[#dbecb9]">{inquiry.student.Username || inquiry.student.username || inquiry.student.name || 'Student'}</strong> ({inquiry.student.email})</span>
                                             )}
-                                            {inquiry.owner?.name && (
-                                                <span>🏢 Owner: <strong className="text-[#dbecb9]">{inquiry.owner.name}</strong> ({inquiry.owner.email})</span>
+                                            {inquiry.owner && (
+                                                <span>🏢 Owner: <strong className="text-[#dbecb9]">{inquiry.owner.Username || inquiry.owner.username || inquiry.owner.name || 'Owner'}</strong> ({inquiry.owner.email})</span>
                                             )}
                                         </div>
                                     </div>
