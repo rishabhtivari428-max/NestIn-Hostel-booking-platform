@@ -1,1 +1,63 @@
 @import "tailwindcss";
+
+/* ── Design Tokens ─────────────────────────────────────────── */
+:root {
+  --green-950: #0c2218;
+  --green-900: #143a2e;
+  --green-800: #1d4d3e;
+  --green-700: #2a6854;
+  --green-600: #357a63;
+  --green-muted: #dbecb9;
+  --amber-400: #f59e0b;
+  --amber-300: #fbbf24;
+  --amber-100: #fef3c7;
+  --surface: #f7faf3;
+  --shadow-soft: 0 4px 24px 0 rgba(20,58,46,0.10);
+  --shadow-card: 0 8px 32px 0 rgba(20,58,46,0.14);
+  --radius-card: 1.25rem;
+}
+
+/* ── Base ────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--surface);
+  color: var(--green-950);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Animations ──────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.5s ease both;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease both;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--green-muted); }
+::-webkit-scrollbar-thumb { background: var(--green-700); border-radius: 99px; }
