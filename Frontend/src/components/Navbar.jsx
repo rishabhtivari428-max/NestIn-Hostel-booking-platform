@@ -1,8 +1,10 @@
 import { Link } from 'react-router'
 import { useState, useEffect } from 'react'
+import { useAuth } from '../features/auth/hooks/useAuth'
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
+  const { user, handleLogout } = useAuth()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -104,56 +106,90 @@ const Navbar = () => {
           {/* Divider */}
           <span style={{ width: '1px', height: '20px', background: 'rgba(42,104,84,0.25)', margin: '0 6px' }} />
 
-          <Link
-            to='/login'
-            style={{
-              padding: '7px 18px',
-              borderRadius: '99px',
-              fontSize: '0.875rem',
-              fontWeight: 600,
-              color: '#143a2e',
-              textDecoration: 'none',
-              border: '1.5px solid rgba(42,104,84,0.4)',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = '#143a2e'
-              e.currentTarget.style.color = '#dbecb9'
-              e.currentTarget.style.borderColor = '#143a2e'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.color = '#143a2e'
-              e.currentTarget.style.borderColor = 'rgba(42,104,84,0.4)'
-            }}
-          >
-            Login
-          </Link>
+          {user ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#143a2e' }}>
+                Hi, {user.Username || user.name || user.email?.split('@')[0]}
+              </span>
+              <button
+                onClick={handleLogout}
+                style={{
+                  padding: '7px 16px',
+                  borderRadius: '99px',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  color: '#dc2626',
+                  background: 'rgba(220, 38, 38, 0.08)',
+                  border: '1px solid rgba(220, 38, 38, 0.25)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = '#dc2626'
+                  e.currentTarget.style.color = '#fff'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'rgba(220, 38, 38, 0.08)'
+                  e.currentTarget.style.color = '#dc2626'
+                }}
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link
+                to='/login'
+                style={{
+                  padding: '7px 18px',
+                  borderRadius: '99px',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  color: '#143a2e',
+                  textDecoration: 'none',
+                  border: '1.5px solid rgba(42,104,84,0.4)',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = '#143a2e'
+                  e.currentTarget.style.color = '#dbecb9'
+                  e.currentTarget.style.borderColor = '#143a2e'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'transparent'
+                  e.currentTarget.style.color = '#143a2e'
+                  e.currentTarget.style.borderColor = 'rgba(42,104,84,0.4)'
+                }}
+              >
+                Login
+              </Link>
 
-          <Link
-            to='/register'
-            style={{
-              padding: '7px 18px',
-              borderRadius: '99px',
-              fontSize: '0.875rem',
-              fontWeight: 600,
-              color: '#fff',
-              textDecoration: 'none',
-              background: 'linear-gradient(135deg, #1d4d3e 0%, #143a2e 100%)',
-              boxShadow: '0 2px 8px rgba(20,58,46,0.25)',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.transform = 'translateY(-1px)'
-              e.currentTarget.style.boxShadow = '0 4px 16px rgba(20,58,46,0.35)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'translateY(0)'
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(20,58,46,0.25)'
-            }}
-          >
-            Register
-          </Link>
+              <Link
+                to='/register'
+                style={{
+                  padding: '7px 18px',
+                  borderRadius: '99px',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  color: '#fff',
+                  textDecoration: 'none',
+                  background: 'linear-gradient(135deg, #1d4d3e 0%, #143a2e 100%)',
+                  boxShadow: '0 2px 8px rgba(20,58,46,0.25)',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-1px)'
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(20,58,46,0.35)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(20,58,46,0.25)'
+                }}
+              >
+                Register
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </header>

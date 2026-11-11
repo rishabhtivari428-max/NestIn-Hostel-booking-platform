@@ -1,10 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AuthContext } from './authContext';
-import { registerUser, loginUser } from '../services/auth.service';
+import { registerUser, loginUser, fetchCurrentUser, logoutUser } from '../services/auth.service';
 
 export function AuthProvider({ children }) {
     const [user, setuser] = useState(null);
-    const [loading, setloading] = useState(false);
+    const [loading, setloading] = useState(true);
+
+    // Automatically check current user from cookie on initial load / OAuth redirect
+    useEffect(() => {
+        fetchCurrentUser()
+            .then((data) => setuser(data.user))
+            .catch(() => setuser(null))
+            .finally(() => setloading(false));
+    }, []);
 
     const handleLogin = async (email, password) => {
         setloading(true);
@@ -32,8 +40,18 @@ export function AuthProvider({ children }) {
         }
     };
 
+    const handleLogout = async () => {
+        try {
+            await logoutUser();
+        } catch (error) {
+            console.error('Error logging out:', error);
+        } finally {
+            setuser(null);
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, loading, handleLogin, handleRegister }}>
+        <AuthContext.Provider value={{ user, loading, handleLogin, handleRegister, handleLogout }}>
             {children}
         </AuthContext.Provider>
     );
