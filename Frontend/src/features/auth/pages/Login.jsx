@@ -167,7 +167,7 @@ const Login = () => {
           </div>
 
           <a
-            href={`${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/auth/google`}
+            href={`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/auth/google`}
             style={{
               display: 'flex',
               alignItems: 'center',

@@ -1,7 +1,7 @@
 import { axiosInstance } from '../api/axiosInstance'
 
 export async function registerUser(username, email, password, phone, gender, role) {
-    const response = await axiosInstance.post(`/auth/register`, {
+    const response = await axiosInstance.post(`/api/auth/register`, {
         Username: username,
         email,
         password,
@@ -13,7 +13,7 @@ export async function registerUser(username, email, password, phone, gender, rol
 }
 
 export async function loginUser(email, password) {
-    const response = await axiosInstance.post(`/auth/login`, {
+    const response = await axiosInstance.post(`/api/auth/login`, {
         email,
         password
     })
@@ -21,11 +21,11 @@ export async function loginUser(email, password) {
 }
 
 export async function fetchCurrentUser() {
-    const response = await axiosInstance.get(`/auth/me`)
+    const response = await axiosInstance.get(`/api/auth/me`)
     return response.data
 }
 
 export async function logoutUser() {
-    const response = await axiosInstance.post(`/auth/logout`)
+    const response = await axiosInstance.post(`/api/auth/logout`)
     return response.data
 }
