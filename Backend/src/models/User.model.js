@@ -1,35 +1,47 @@
 import mongoose from 'mongoose'
 
 const UserSchema = mongoose.Schema({
-    Username:{
+    googleId: {
+        type: String,
+        sparse: true,
+        unique: true
+    },
+    Username: {
         type: String,
         required: [true, "Username is required"]
     },
-    email:{
+    email: {
         type: String,
-        required: [true, "E-Mail is required"] ,
+        required: [true, "E-Mail is required"],
         unique: true
     },
-    password:{
-        type: String,
-        required: [true, "Password is required"] 
+    password: {
+        type: String
     },
-    phone:{
-        type: String,
-        required: [true, "Phone number is required"]
+    phone: {
+        type: String
     },
-    gender:{
+    gender: {
         type: String,
         enum: ["Male", "Female"]
     },
-    role:{
+    role: {
         type: String,
         enum: ["Student", "Owner", "Admin"],
+        default: "Student",
         required: true
+    },
+    refreshToken: {
+        type: String
+    },
+    authProvider: {
+        type: String,
+        enum: ['local', 'google'],
+        default: 'local'
     }
-}, {timestamps: true});
+}, { timestamps: true });
 
-UserSchema.virtual('name').get(function() {
+UserSchema.virtual('name').get(function () {
     return this.Username;
 });
 

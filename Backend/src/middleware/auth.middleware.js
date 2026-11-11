@@ -3,7 +3,7 @@ import UserModel from '../models/User.model.js'
 
 export async function identifyUser(req, res, next) {
     try {
-        const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
+        const token = req.cookies?.accessToken || req.headers.authorization?.split(" ")[1];
 
         if (!token) {
             return res.status(401).json({
@@ -11,7 +11,7 @@ export async function identifyUser(req, res, next) {
             })
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
 
         if (!decoded) {
             return res.status(401).json({
@@ -19,7 +19,7 @@ export async function identifyUser(req, res, next) {
             })
         }
         
-        const user = await UserModel.findById(decoded.id).select('-password')
+        const user = await UserModel.findById(decoded.userId).select('-password')
 
         if (!user) {
             return res.status(401).json({

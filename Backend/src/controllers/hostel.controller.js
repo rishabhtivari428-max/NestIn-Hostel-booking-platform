@@ -1,4 +1,5 @@
 import { HostelModel } from "../models/Hostel.model.js";
+import { uploadonCloudinary } from '../utils/cloudinary.js'
 
 // 1. ADD HOSTEL
 export async function addHostel(req, res) {
@@ -8,6 +9,12 @@ export async function addHostel(req, res) {
         if (!name || !city || !address || !pricePerMonth || !amenities || !roomType) {
             return res.status(400).json({
                 message: "All fields are required"
+            });
+        }
+
+        if (!req.file) {
+            return res.status(400).json({
+                message: "Hostel image is required"
             });
         }
 
@@ -33,6 +40,14 @@ export async function addHostel(req, res) {
             });
         }
 
+        const cloudinaryResponse = await uploadonCloudinary(req.file.path || req.file.buffer);
+
+        if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+            return res.status(500).json({
+                message: "Failed to upload image to cloudinary"
+            });
+        }
+
         const hostel = await HostelModel.create({
             name: name.trim(),
             owner: req.user._id,
@@ -40,7 +55,8 @@ export async function addHostel(req, res) {
             address: address.trim(),
             pricePerMonth: Number(pricePerMonth),
             amenities,
-            roomType
+            roomType,
+            image: cloudinaryResponse.secure_url 
         });
 
         return res.status(201).json({

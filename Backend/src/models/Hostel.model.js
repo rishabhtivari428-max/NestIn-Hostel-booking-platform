@@ -11,6 +11,9 @@ const HostelSchema = new mongoose.Schema({
         required: [true, "City is required"],
         trim: true
     },
+    image: {
+        type: String
+    },
     address: {
         type: String,
         required: [true, "Address is required"],
