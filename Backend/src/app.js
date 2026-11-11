@@ -8,7 +8,6 @@ import InquieryRouter from './routes/Inquiry.routes.js'
 import cookieParser from 'cookie-parser'
 import passport from 'passport'
 import './config/passport.js'
-import './config/passport.js'
 import { googleAuthCallback } from './controllers/auth.controller.js'
 
 const app = express()
@@ -43,13 +42,13 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/auth', authRouter)
-// Fallback for Google OAuth callback if GOOGLE_CALLBACK_URL in Google Console is /auth/google/callback without /api
+// Fallback: matches GOOGLE_CALLBACK_URL = http://localhost:3000/auth/google/callback (no /api prefix)
 app.get('/auth/google/callback', passport.authenticate('google', {
-    failureRedirect: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=google_auth_failed`,
+    failureRedirect: `${(process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/+$/, '')}/login?error=google_auth_failed`,
     session: false
 }), googleAuthCallback)
 app.use('/api/hostels', hostelRouter)
 app.use('/api/bookings', bookingRouter)
 app.use('/api/inquiery', InquieryRouter)
 
-export default app 
+export default app

@@ -2,47 +2,52 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import UserModel from "../models/User.model.js";
 
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL
-}, async (accessToken, refreshToken, profile, done) => {
-    try {
-        let user = await UserModel.findOne({ googleId: profile.id });
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    passport.use(new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK_URL || "/auth/google/callback",
+        proxy: true
+    }, async (accessToken, refreshToken, profile, done) => {
+        try {
+            let user = await UserModel.findOne({ googleId: profile.id });
 
-        if (!user) {
-            const email = profile.emails?.[0]?.value;
+            if (!user) {
+                const email = profile.emails?.[0]?.value;
 
-            if (!email) {
-                return done(new Error('No email returned from Google'), null);
-            }
+                if (!email) {
+                    return done(new Error('No email returned from Google'), null);
+                }
 
-            user = await UserModel.findOne({ email });
+                user = await UserModel.findOne({ email });
 
-            if (user) {
-                user.googleId = profile.id;
-                user.authProvider = 'google';
-                await user.save();
-                console.log('Google linked to existing account:', user.email);
+                if (user) {
+                    user.googleId = profile.id;
+                    user.authProvider = 'google';
+                    await user.save();
+                    console.log('Google linked to existing account:', user.email);
+                } else {
+                    user = await UserModel.create({
+                        googleId: profile.id,
+                        Username: profile.displayName || email.split('@')[0],
+                        email,
+                        authProvider: 'google',
+                        role: 'Student'
+                    });
+                    console.log('New user registered via Google:', user.email);
+                }
             } else {
-                user = await UserModel.create({
-                    googleId: profile.id,
-                    Username: profile.displayName || email.split('@')[0],
-                    email,
-                    authProvider: 'google',
-                    role: 'Student'
-                });
-                console.log('New user registered via Google:', user.email);
+                console.log('Existing user logged in via Google:', user.email);
             }
-        } else {
-            console.log('Existing user logged in via Google:', user.email);
-        }
 
-        return done(null, user);
-    } catch (error) {
-        console.error('Error in Google Strategy:', error);
-        return done(error, null);
-    }
-}));
+            return done(null, user);
+        } catch (error) {
+            console.error('Error in Google Strategy:', error);
+            return done(error, null);
+        }
+    }));
+} else {
+    console.warn("⚠️ Google OAuth credentials missing: GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET not set in environment.");
+}
 
 export default passport;

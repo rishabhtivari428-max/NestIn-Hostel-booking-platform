@@ -231,7 +231,7 @@ export const googleAuthCallback = async (req, res) => {
         user.refreshToken = refreshToken;
         await user.save();
 
-        const frontendURL = process.env.FRONTEND_URL || "http://localhost:5173";
+        const frontendURL = (process.env.FRONTEND_URL || "http://localhost:5173").replace(/\/+$/, '');
 
         return res
             .cookie('accessToken', accessToken, {
@@ -245,7 +245,7 @@ export const googleAuthCallback = async (req, res) => {
             .redirect(`${frontendURL}/`);
     } catch (error) {
         console.error("Error in googleAuthCallback:", error);
-        const frontendURL = process.env.FRONTEND_URL || "http://localhost:5173";
+        const frontendURL = (process.env.FRONTEND_URL || "http://localhost:5173").replace(/\/+$/, '');
         return res.redirect(`${frontendURL}/login?error=ServerError`);
     }
 };
