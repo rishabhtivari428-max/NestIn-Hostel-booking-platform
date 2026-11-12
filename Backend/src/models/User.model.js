@@ -2,9 +2,7 @@ import mongoose from 'mongoose'
 
 const UserSchema = mongoose.Schema({
     googleId: {
-        type: String,
-        sparse: true,
-        unique: true
+        type: String
     },
     Username: {
         type: String,
@@ -28,13 +26,11 @@ const UserSchema = mongoose.Schema({
     role: {
         type: String,
         enum: ["Student", "Owner", "Admin"],
-        default: "Student",
-        required: true
     },
-    refreshToken: {
+    refreshToken:{
         type: String
     },
-    authProvider: {
+    authProvider:{
         type: String,
         enum: ['local', 'google'],
         default: 'local'
