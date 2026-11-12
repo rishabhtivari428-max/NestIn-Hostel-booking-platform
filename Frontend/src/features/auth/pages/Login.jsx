@@ -45,36 +45,14 @@ const Login = () => {
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(155deg, #e8f5d5 0%, #d4edba 60%, #c5e4a3 100%)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '24px',
-    }}>
-      <div style={{
-        width: '100%',
-        maxWidth: '420px',
-        background: 'linear-gradient(145deg, #1d5240 0%, #143a2e 100%)',
-        borderRadius: '24px',
-        padding: '40px 36px',
-        boxShadow: '0 20px 64px rgba(12,34,24,0.45)',
-        border: '1px solid rgba(255,255,255,0.08)',
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(155deg, #e8f5d5 0%, #d4edba 60%, #c5e4a3 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px',}}>
+      <div style={{ width: '100%', maxWidth: '420px', background: 'linear-gradient(145deg, #1d5240 0%, #143a2e 100%)', borderRadius: '24px', padding: '40px 36px', boxShadow: '0 20px 64px rgba(12,34,24,0.45)', border: '1px solid rgba(255,255,255,0.08)',
         position: 'relative',
         overflow: 'hidden',
       }}
         className="animate-fadeInUp"
       >
-        {/* Glow accent */}
-        <div style={{
-          position: 'absolute', top: '-60px', right: '-60px',
-          width: '160px', height: '160px', borderRadius: '50%',
-          background: 'rgba(251,191,36,0.1)', filter: 'blur(40px)',
-          pointerEvents: 'none',
-        }} />
-
-        {/* Logo */}
+        <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: '160px', height: '160px', borderRadius: '50%', background: 'rgba(251,191,36,0.1)', filter: 'blur(40px)',pointerEvents: 'none',}}/>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <Link to="/" style={{ textDecoration: 'none' }}>
             <span style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.75rem', fontWeight: 800, color: '#dbecb9' }}>Nest</span>
@@ -87,7 +65,6 @@ const Login = () => {
             Log in to manage your NestIn bookings
           </p>
         </div>
-
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px', position: 'relative', zIndex: 1 }}>
           <div>
             <label style={labelStyle} htmlFor="login-email">E-Mail</label>
@@ -167,7 +144,7 @@ const Login = () => {
           </div>
 
           <a
-            href={`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/auth/google`}
+            href={`${import.meta.env.VITE_API_URL || 'https://nestin-hostel-booking-platform.onrender.com'}/api/auth/google`}
             style={{
               display: 'flex',
               alignItems: 'center',
