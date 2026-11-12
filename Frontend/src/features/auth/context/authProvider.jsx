@@ -6,7 +6,6 @@ export function AuthProvider({ children }) {
     const [user, setuser] = useState(null);
     const [loading, setloading] = useState(true);
 
-    // Automatically check current user from cookie on initial load / OAuth redirect
     useEffect(() => {
         fetchCurrentUser()
             .then((data) => setuser(data.user))
@@ -33,8 +32,10 @@ export function AuthProvider({ children }) {
         try {
             const response = await registerUser(username, email, password, phone, gender, role);
             setuser(response.user);
+            return response.user;
         } catch (error) {
             console.log("Error while registering User...", error);
+            throw error;
         } finally {
             setloading(false);
         }
