@@ -67,6 +67,7 @@ export async function registerUser(req, res) {
           id: user._id,
           Username: user.Username,
           email: user.email,
+          role: user.role,
         },
       });
   } catch (error) {
@@ -90,6 +91,12 @@ export async function loginUser(req, res) {
     const user = await UserModel.findOne({ email });
 
     if (!user) {
+      return res.status(401).json({
+        message: "Invalid credentials",
+      });
+    }
+
+    if (!user.password) {
       return res.status(401).json({
         message: "Invalid credentials",
       });

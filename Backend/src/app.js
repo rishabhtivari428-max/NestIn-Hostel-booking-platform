@@ -16,6 +16,7 @@ app.use(morgan('dev'))
 const allowedOrigins = [
     "http://localhost:5173",
     "http://localhost:3000",
+    
     process.env.CLIENT_URL,
     process.env.FRONTEND_URL
 ].filter(Boolean).map((origin) => origin.replace(/\/+$/, ""));
@@ -40,7 +41,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/auth', authRouter)
-app.use('/auth', authRouter)
 app.use('/api/hostels', hostelRouter)
 app.use('/api/bookings', bookingRouter)
 app.use('/api/inquiery', InquieryRouter)
